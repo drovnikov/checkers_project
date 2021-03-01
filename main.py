@@ -38,15 +38,15 @@ def move_checking(field, x, y, x1, y1):
     if field[y][x] == 1:
         if x1 - x == 1 and y1 - y == -1:
             return True
-        elif x1 - x == -1 and y1 - y == -1:
+        if x1 - x == -1 and y1 - y == -1:
             return True
-        elif x1 - x == 2 and y1 - y == -2:
+        if x1 - x == 2 and y1 - y == -2:
             if field[y1 + 1][x1 - 1] == player_2[1] or player_2[2]:
                 field[y1 + 1][x1 - 1] = 0
                 return True
             else:
                 return False
-        elif x1 - x == -2 and y1 - y == -2:
+        if x1 - x == -2 and y1 - y == -2:
             if field[y1 + 1][x1 + 1] == player_2[1] or player_2[2]:
                 field[y1 + 1][x1 + 1] = 0
                 return True
@@ -121,6 +121,48 @@ def checking(field, x, y, x1, y1):
         return False
 
 
+def double_jumps(field, x1, y1):
+    if player == 1:
+        try:
+            if field[y1 - 2][x1 + 2] == 0:
+                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
+                    return True
+            elif field[y1 - 2][x1 - 2] == 0:
+                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
+                    return True
+        except IndexError:
+            pass
+    if player == 2:
+        try:
+            if field[y1 + 2][x1 + 2] == 0:
+                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
+                    return True
+            elif field[y1 + 2][x1 - 2] == 0:
+                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
+                    return True
+        except IndexError:
+            pass
+    if field[y1][x1] == player_1[2]:
+        try:
+            for i in range(8):
+                if field[y1 - i][x1 + i] == player_2[2]:
+                    if field[y1 - (i + 1)][x1 + (i + 1)] == 0:
+                        return True
+                if field[y1 + i][x1 + i] == player_2[2]:
+                    if field[y1 + (i + 1)][x1 + (i + 1)] == 0:
+                        return True
+                if field[y1 + i][x1 - i] == player_2[2]:
+                    if field[y1 + (i + 1)][x1 - (i + 1)] == 0:
+                        return True
+                if field[y1 - i][x1 - i] == player_2[2]:
+                    if field[y1 - (i + 1)][x1 - (i + 1)] == 0:
+                        return True
+        except IndexError:
+            pass
+    else:
+        return False
+
+
 def checking_queen_move(field, x, y, x1, y1):
     if field[y1][x1] != 0:
         return False
@@ -178,48 +220,6 @@ def checking_queen_move(field, x, y, x1, y1):
                         return True
         except IndexError:
             pass
-
-
-def double_jumps(field, x1, y1):
-    if player == 1:
-        try:
-            if field[y1 - 2][x1 + 2] == 0:
-                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
-                    return True
-            elif field[y1 - 2][x1 - 2] == 0:
-                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
-                    return True
-        except IndexError:
-            pass
-    if player == 2:
-        try:
-            if field[y1 + 2][x1 + 2] == 0:
-                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
-                    return True
-            elif field[y1 + 2][x1 - 2] == 0:
-                if field[y1 - 1][x1 + 1] == player_2[1] or player_2[2]:
-                    return True
-        except IndexError:
-            pass
-    if field[y1][x1] == player_1[2]:
-        try:
-            for i in range(8):
-                if field[y1 - i][x1 + i] == player_2[2]:
-                    if field[y1 - (i + 1)][x1 + (i + 1)] == 0:
-                        return True
-                if field[y1 + i][x1 + i] == player_2[2]:
-                    if field[y1 + (i + 1)][x1 + (i + 1)] == 0:
-                        return True
-                if field[y1 + i][x1 - i] == player_2[2]:
-                    if field[y1 + (i + 1)][x1 - (i + 1)] == 0:
-                        return True
-                if field[y1 - i][x1 - i] == player_2[2]:
-                    if field[y1 - (i + 1)][x1 - (i + 1)] == 0:
-                        return True
-        except IndexError:
-            pass
-    else:
-        return False
 
 
 def win_checking(player, field):
